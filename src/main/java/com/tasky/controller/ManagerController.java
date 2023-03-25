@@ -3,8 +3,6 @@ package com.tasky.controller;
 import com.tasky.DTO.EmployeeDTO;
 import com.tasky.DTO.ManagerDTO;
 import com.tasky.exception.ManagerException;
-import com.tasky.model.Employee;
-import com.tasky.model.Manager;
 import com.tasky.service.ManagerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/tasky/manager")
 public class ManagerController {
@@ -33,9 +32,9 @@ public class ManagerController {
         return new ResponseEntity<List<EmployeeDTO>>(managerDTO1, HttpStatus.OK);
     }
 
-    @GetMapping("/{managerId}")
-    public ResponseEntity<ManagerDTO> getManagerByIdHandler(@Valid @PathVariable Integer managerId) throws ManagerException {
-        ManagerDTO manager = managerService.getMangerById(managerId);
+    @GetMapping("/{email}")
+    public ResponseEntity<ManagerDTO> getManagerByIdHandler(@Valid @PathVariable String email) throws ManagerException {
+        ManagerDTO manager = managerService.getMangerById(email);
         return new ResponseEntity<>(manager, HttpStatus.OK);
     }
 }

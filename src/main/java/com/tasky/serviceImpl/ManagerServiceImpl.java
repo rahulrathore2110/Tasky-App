@@ -27,7 +27,7 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public ManagerDTO addManager(ManagerDTO managerDTO) throws ManagerException {
         Manager manager = managerDao.findByEmail(managerDTO.getEmail());
-        if (manager != null){
+        if (manager != null) {
             throw new ManagerException("manager already exist  with this" + manager.getEmail() + " plz choose " +
                     "another email ");
         }
@@ -39,18 +39,20 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public List<EmployeeDTO> getAllEmployee(Integer managerId) throws ManagerException {
         Manager manager = managerDao.findById(managerId).orElseThrow(() -> new ManagerException("No manager found " +
-                "with this id : "+managerId));
+                "with this id : " + managerId));
 
         Set<Employee> employees = manager.getEmployees();
 
-        List<EmployeeDTO> employeeDTOS = employees.stream().map(emp -> modelMapper.map(emp,EmployeeDTO.class)).collect(Collectors.toList());
+        List<EmployeeDTO> employeeDTOS = employees.stream().map(emp -> modelMapper.map(emp, EmployeeDTO.class)).collect(Collectors.toList());
         return employeeDTOS;
     }
 
     @Override
-    public ManagerDTO getMangerById(Integer managerId) throws ManagerException {
-        Manager manager = managerDao.findById(managerId).orElseThrow(()->new ManagerException("No manager fount with " +
-                "this id : "+managerId));
+    public ManagerDTO getMangerById(String email) throws ManagerException {
+        Manager manager = managerDao.findByEmail(email);
+        if (manager == null) {
+            throw new ManagerException("Manager not found with this Email : " + email);
+        }
 
 
         return modelMapper.map(manager, ManagerDTO.class);

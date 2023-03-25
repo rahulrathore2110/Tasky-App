@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/tasky/sprint")
 public class SprintController {
@@ -21,7 +22,7 @@ public class SprintController {
 
     @PostMapping("/{managerId}")
     public ResponseEntity<SprintDTO> addSprintHandler(@Valid @RequestBody SprintDTO sprintDTO, @PathVariable Integer managerId) throws SprintException, ManagerException {
-        SprintDTO sprintDTO1 = sprintService.addSprint(sprintDTO,managerId);
+        SprintDTO sprintDTO1 = sprintService.addSprint(sprintDTO, managerId);
         return new ResponseEntity<>(sprintDTO1, HttpStatus.CREATED);
     }
 
@@ -32,14 +33,14 @@ public class SprintController {
     }
 
     @DeleteMapping("/{sprintID}/{managerId}")
-    public ResponseEntity<String> deleteSprintByIdHandler(@PathVariable Integer sprintID,@PathVariable Integer managerId) throws SprintException, ManagerException {
-        String deleteSprint = this.sprintService.deleteSprint(sprintID,managerId);
+    public ResponseEntity<String> deleteSprintByIdHandler(@PathVariable Integer sprintID, @PathVariable Integer managerId) throws SprintException, ManagerException {
+        String deleteSprint = this.sprintService.deleteSprint(sprintID, managerId);
         return new ResponseEntity<>(deleteSprint, HttpStatus.OK);
     }
 
     @GetMapping("/{sprintID}")
-    public ResponseEntity<SprintDTO> geySprintByIdHandler(@Valid @PathVariable Integer sprintID) throws SprintException{
-        SprintDTO  sprintDTO = sprintService.getSprintById(sprintID);
+    public ResponseEntity<SprintDTO> geySprintByIdHandler(@Valid @PathVariable Integer sprintID) throws SprintException {
+        SprintDTO sprintDTO = sprintService.getSprintById(sprintID);
         return new ResponseEntity<>(sprintDTO, HttpStatus.OK);
     }
 
